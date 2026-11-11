@@ -26,3 +26,15 @@ jobs:
         run: |
           xcrun swiftc -typecheck apps/mac/macos/AccountSecrets.swift
           xcrun swiftc -typecheck apps/mac/macos/UsageLedger.swift
+      - name: Install both macOS editions in the hosted test environment
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          node apps/mac/runtime/mac-install.mjs --install-dir "$RUNNER_TEMP/dashboard-sync" --data-dir "$RUNNER_TEMP/dashboard-sync-state" --codex-path /usr/bin/true --codex-home "$RUNNER_TEMP/codex-fixture"
+          codesign --verify --deep --strict "$HOME/Applications/Codex 用量看板.app"
+          [[ $(file -b "$HOME/Applications/Codex 用量看板.app/Contents/MacOS/UsageLedger") == Mach-O* ]]
+          cp -R apps/mac "$RUNNER_TEMP/dashboard-single-source"
+          node -e 'require("fs").writeFileSync(process.env.RUNNER_TEMP + "/dashboard-single-source/edition.json", JSON.stringify({mode:"single",version:"0.5.0-rc.2"}))'
+          node "$RUNNER_TEMP/dashboard-single-source/runtime/mac-install.mjs" --install-dir "$RUNNER_TEMP/dashboard-single" --data-dir "$RUNNER_TEMP/dashboard-single-state" --codex-path /usr/bin/true --codex-home "$RUNNER_TEMP/codex-fixture"
+          codesign --verify --deep --strict "$HOME/Applications/Codex 用量看板单设备版.app"
+          [[ $(file -b "$HOME/Applications/Codex 用量看板单设备版.app/Contents/MacOS/UsageLedger") == Mach-O* ]]
