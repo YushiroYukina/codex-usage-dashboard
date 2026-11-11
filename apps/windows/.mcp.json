@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "usage_ledger": {
+      "command": "node",
+      "args": [
+        "runtime/mcp.mjs"
+      ]
+    }
+  }
+}

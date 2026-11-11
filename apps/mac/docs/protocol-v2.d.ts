@@ -1,0 +1,20 @@
+/** Numeric tokens are safe integers [0, 2^53-1]. Unknown is explicit null. */
+export type Scope = string; // 64 lowercase hexadecimal chars, not a login credential
+export type Usage = {input:number|null;cached:number|null;uncached:number|null;cacheWrite:number|null;output:number|null;reasoning:number|null;total:number};
+export type Token = {id:string;at:string;day:string;model:string;usage:Usage};
+export type Snapshot = {id:string;at:string;day:string;source:'log'|'live'|'native';scope:Scope|'historical-account-unverified';plan:string;window:string;minutes:number|null;used:number;reset:number|null};
+export type Turn = {id:string;session:string;turn:string;root:string;started:string|null;ended:string|null;status:'running'|'complete'|'failed'|'aborted';child:0|1;start_observed:0|1};
+export type TokenTurn = {token:string;session:string;turn:string;root:string};
+export type NativeObservation = {id:string;scope:Scope;kind:'profile'|'period'|'balance';value:Record<string,unknown>;updated:string};
+export type Bundle = {protocol:2;accountScope:Scope;tokens:Token[];snapshots:Snapshot[];native:NativeObservation[];turns:Turn[];tokenTurns:TokenTurn[]};
+export type Manifest = {protocol:2;timeZone:'Asia/Shanghai';digest:string;counts:{tokens:number;snapshots:number;native:number;turns:number;tokenTurns:number}};
+export type Device = {id:string;label:string;platform:string};
+export type ExchangeRequest = {protocol:2;requestId:string;accountScope:Scope;device:Device;bundle:Bundle;manifest:Manifest};
+export type ExchangeResponse = {protocol:2;accountScope:Scope;revision:number;snapshotAt:string;bundle:Bundle;manifest:Manifest};
+export type AckRequest = {protocol:2;accountScope:Scope;deviceId:string;revision:number;digest:string};
+export type AckResponse = {protocol:2;accountScope:Scope;revision:number;digest:string;devices:Array<Device & {revision:number;digest:string}>};
+export type DeviceStartRequest = {protocol:2;accountScope:Scope;client:'usage-ledger-mac'|string;device:string};
+export type DeviceStartResponse = {deviceCode:string;userCode:string;verificationUri:string;expiresIn:number;interval:number};
+export type TokenResponse = {accountScope:Scope;accessToken:string;refreshToken:string;expiresIn:number};
+export type DevicePollResponse = {pending:true;slowDown?:boolean}|TokenResponse;
+export type SyncState = 'not_configured'|'login_required'|'ready'|'signed_out'|'syncing'|'pending'|'uploaded'|'converged'|'error';

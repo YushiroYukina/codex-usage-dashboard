@@ -1,0 +1,23 @@
+name: Prepare release draft
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  draft:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python tools/check-public.py
+      - run: node --test apps/windows/tests/*.test.mjs
+      - run: python tools/build.py
+      - shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create v0.5.0-rc.2 artifacts/*.zip artifacts/SHA256SUMS --draft --prerelease --title "Codex 用量看板 0.5.0-rc.2" --notes-file docs/RELEASE_NOTES.md

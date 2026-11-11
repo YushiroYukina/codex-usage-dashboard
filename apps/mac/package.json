@@ -1,0 +1,13 @@
+{
+  "name": "usage-ledger",
+  "version": "0.5.0-rc.2",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.mjs"
+  },
+  "description": "Codex 用量看板，提供 Token 与额度统计、历史图表及设备配对"
+}

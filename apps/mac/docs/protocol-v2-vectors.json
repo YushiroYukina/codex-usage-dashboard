@@ -1,0 +1,151 @@
+{
+  "description": "Synthetic portability fixtures. No private account data.",
+  "canonicalFormat": "usage-ledger-canonical-v1",
+  "mac": {
+    "protocol": 2,
+    "accountScope": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "tokens": [
+      {
+        "id": "647d97d7f67082fc58f926c2391bc940855c4d2dc106203662811dd0a5505f41",
+        "at": "2026-11-10T00:00:00.000Z",
+        "day": "2026-11-10",
+        "model": "model-mac-only",
+        "usage": {
+          "input": 80,
+          "cached": 0,
+          "uncached": 80,
+          "cacheWrite": null,
+          "output": 0,
+          "reasoning": 0,
+          "total": 80
+        }
+      },
+      {
+        "id": "cb73c0b07e8ce2644fe897b10b11b088c87bf9650ea6ad800c2f9975032a2ecf",
+        "at": "2026-11-10T00:00:00.000Z",
+        "day": "2026-11-10",
+        "model": "model-shared",
+        "usage": {
+          "input": 20,
+          "cached": 0,
+          "uncached": 20,
+          "cacheWrite": null,
+          "output": 0,
+          "reasoning": 0,
+          "total": 20
+        }
+      }
+    ],
+    "snapshots": [],
+    "native": [],
+    "turns": [],
+    "tokenTurns": []
+  },
+  "windows": {
+    "protocol": 2,
+    "accountScope": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "tokens": [
+      {
+        "id": "88c489369a2e6669ecec895e9d0af6f408fdf00d63e627333ccaf677862c156c",
+        "at": "2026-11-10T00:00:00.000Z",
+        "day": "2026-11-10",
+        "model": "model-windows-only",
+        "usage": {
+          "input": 30,
+          "cached": 0,
+          "uncached": 30,
+          "cacheWrite": null,
+          "output": 0,
+          "reasoning": 0,
+          "total": 30
+        }
+      },
+      {
+        "id": "cb73c0b07e8ce2644fe897b10b11b088c87bf9650ea6ad800c2f9975032a2ecf",
+        "at": "2026-11-10T00:00:00.000Z",
+        "day": "2026-11-10",
+        "model": "model-shared",
+        "usage": {
+          "input": 20,
+          "cached": 0,
+          "uncached": 20,
+          "cacheWrite": null,
+          "output": 0,
+          "reasoning": 0,
+          "total": 20
+        }
+      }
+    ],
+    "snapshots": [],
+    "native": [],
+    "turns": [],
+    "tokenTurns": []
+  },
+  "merged": {
+    "protocol": 2,
+    "accountScope": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "tokens": [
+      {
+        "id": "647d97d7f67082fc58f926c2391bc940855c4d2dc106203662811dd0a5505f41",
+        "at": "2026-11-10T00:00:00.000Z",
+        "day": "2026-11-10",
+        "model": "model-mac-only",
+        "usage": {
+          "input": 80,
+          "cached": 0,
+          "uncached": 80,
+          "cacheWrite": null,
+          "output": 0,
+          "reasoning": 0,
+          "total": 80
+        }
+      },
+      {
+        "id": "88c489369a2e6669ecec895e9d0af6f408fdf00d63e627333ccaf677862c156c",
+        "at": "2026-11-10T00:00:00.000Z",
+        "day": "2026-11-10",
+        "model": "model-windows-only",
+        "usage": {
+          "input": 30,
+          "cached": 0,
+          "uncached": 30,
+          "cacheWrite": null,
+          "output": 0,
+          "reasoning": 0,
+          "total": 30
+        }
+      },
+      {
+        "id": "cb73c0b07e8ce2644fe897b10b11b088c87bf9650ea6ad800c2f9975032a2ecf",
+        "at": "2026-11-10T00:00:00.000Z",
+        "day": "2026-11-10",
+        "model": "model-shared",
+        "usage": {
+          "input": 20,
+          "cached": 0,
+          "uncached": 20,
+          "cacheWrite": null,
+          "output": 0,
+          "reasoning": 0,
+          "total": 20
+        }
+      }
+    ],
+    "snapshots": [],
+    "native": [],
+    "turns": [],
+    "tokenTurns": []
+  },
+  "manifest": {
+    "protocol": 2,
+    "timeZone": "Asia/Shanghai",
+    "digest": "398aa93f5c350e61b8b17e3034d29516d6ddb0ecc172605e6e9ffbfa347cf5da",
+    "counts": {
+      "tokens": 3,
+      "snapshots": 0,
+      "native": 0,
+      "turns": 0,
+      "tokenTurns": 0
+    }
+  }
+}

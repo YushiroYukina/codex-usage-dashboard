@@ -1,0 +1,11 @@
+import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import {fileURLToPath} from 'node:url';
+import {openHistory,scanHistory} from './history.mjs';import {accountHistory} from './account-view.mjs';import {currentScope} from './device-sync.mjs';import {accountSettings} from './account-client.mjs';import {createAccountSync} from './platform-account.mjs';import {windowsSecrets} from './windows-secrets.mjs';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..'),arg=name=>{const i=process.argv.indexOf(name);return i<0?null:process.argv[i+1];},config=JSON.parse(fs.readFileSync(arg('--config')??path.join(root,'installation.json'),'utf8').replace(/^\uFEFF/,''));
+const result={at:new Date().toISOString(),version:'0.5.0-rc.2',platform:process.platform,arch:process.arch,node:process.version,protocol:2,realMacTested:false};const db=openHistory(config.dataDir);
+try{
+ const first=scanHistory(db,path.join(config.codexHome,'sessions')),second=scanHistory(db,path.join(config.codexHome,'sessions'));result.incremental={firstNewEvents:first.newEvents,secondNewEvents:second.newEvents,secondBytes:second.bytes};result.integrity=db.prepare('PRAGMA integrity_check').get();result.accountKnown=!!currentScope(config);result.reports=[1,7,30].map(days=>{const r=accountHistory(db,config,days);return {days,total:r.sum.total,events:r.sum.events,digest:r.ledger?.digest,counts:r.ledger?.counts};});result.serviceConfigured=!!accountSettings(config).service;
+ const client=createAccountSync(config,db);try{const s=client.status();result.sync={state:s.state,loggedIn:s.loggedIn,revision:s.revision,converged:s.converged??false,registeredDevices:s.devices?.length??0};}finally{client.close();}
+ const store=windowsSecrets(config),key='usage-ledger-self-check|'+Date.now();try{store.write(key,{check:true});result.dpapi=store.read(key)?.check===true;}finally{store.remove(key);}
+ if(process.argv.includes('--show-account-scope'))result.accountScopeForTrustedAdminBinding=currentScope(config);
+}catch(e){result.error=['CREDENTIAL_STORE_UNAVAILABLE'].includes(e.message)?e.message:'CHECK_FAILED';}finally{db.close();}
+const output=arg('--output')??path.join(os.homedir(),'Desktop','UsageLedger-Windows-check-'+Date.now()+'.json');fs.writeFileSync(output,JSON.stringify(result,null,2),{mode:0o600});console.log('检查报告：'+output);

@@ -1,0 +1,7 @@
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import path from 'node:path';import os from 'node:os';
+import {openHistory} from '../runtime/history.mjs';import {cachedLedger} from '../runtime/cached-ledger.mjs';import {digest,bindLocalRecords} from '../runtime/account-ledger.mjs';
+test('snapshot cache invalidates for writes from either connection and account changes',t=>{
+ const root=fs.mkdtempSync(path.join(os.tmpdir(),'ul-cache-')),a=openHistory(root),b=openHistory(root),scope='a'.repeat(64),other='b'.repeat(64);t.after(()=>{a.close();b.close();fs.rmSync(root,{recursive:true,force:true});});
+ const seed=(db,id,owner=scope)=>{db.prepare('INSERT INTO tokens VALUES(?,?,?,?,?)').run(digest(id),'2026-11-10T00:00:00.000Z','2026-11-10','model',JSON.stringify({input:1,cached:0,uncached:1,cacheWrite:null,output:0,reasoning:0,total:1}));bindLocalRecords(db,owner);};
+ seed(a,'first');const before=cachedLedger(a,scope);assert.strictEqual(cachedLedger(a,scope),before);seed(b,'external');const after=cachedLedger(a,scope);assert.equal(after.manifest.counts.tokens,2);assert.notEqual(after.manifest.digest,before.manifest.digest);seed(a,'local');assert.equal(cachedLedger(a,scope).manifest.counts.tokens,3);seed(b,'other',other);assert.equal(cachedLedger(a,other).manifest.counts.tokens,1);assert.equal(cachedLedger(a,scope).manifest.counts.tokens,3);
+});

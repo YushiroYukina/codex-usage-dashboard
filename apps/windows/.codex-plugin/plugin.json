@@ -1,0 +1,19 @@
+{
+  "name": "usage-ledger",
+  "version": "0.5.0-rc.2",
+  "description": "双端配对同步的 Token 与额度账本，保留账号协议 v2 兼容",
+  "mcpServers": "./.mcp.json",
+  "license": "MIT",
+  "interface": {
+    "displayName": "Codex 用量看板",
+    "shortDescription": "按账号合并的 Token 与额度历史",
+    "category": "Productivity",
+    "brandColor": "#9274B9",
+    "logo": "./assets/icon.png"
+  },
+  "keywords": [
+    "usage",
+    "tokens",
+    "history"
+  ]
+}

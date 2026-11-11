@@ -1,0 +1,6 @@
+installation.json
+*.sqlite*
+*.dpapi
+credentials-dpapi/
+desktop-profile/
+data/

@@ -1,0 +1,28 @@
+name: Test
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  test:
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            app: windows
+          - os: macos-14
+            app: mac
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python tools/check-public.py
+      - run: node --test apps/${{ matrix.app }}/tests/*.test.mjs
+      - if: runner.os == 'macOS'
+        run: |
+          xcrun swiftc -typecheck apps/mac/macos/AccountSecrets.swift
+          xcrun swiftc -typecheck apps/mac/macos/UsageLedger.swift

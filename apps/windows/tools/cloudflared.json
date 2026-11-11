@@ -1,0 +1,6 @@
+{
+  "vendor": "Cloudflare",
+  "version": "2026.10.7",
+  "sha256": "2493dbc168923bb3e59e5e7716f71deced92992eea9acd6e9d74f84ac7751343",
+  "source": "https://github.com/cloudflare/cloudflared/releases/tag/2026.10.7"
+}
